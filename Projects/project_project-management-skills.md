@@ -60,6 +60,13 @@ and also keeps this record of the work on them.
   weeks-long sessions, and saving tokens, since a fresh session reads only a
   few kilobytes of state where a long or reopened session re-sends its whole
   history each turn.
+- **How the owner presents the skills publicly**, and so how `README.md`
+  opens: Claude Code already saves and resumes sessions, but a saved session
+  (1) holds far too much detail and uses unnecessary tokens, (2) is purged
+  automatically after a set period, and (3) is stored in Claude Code's own
+  directories, which may not be backed up with the project. A "project" does
+  essentially what session save and resume does without those three
+  shortcomings. Keep the README's opening in that order.
 - **Public-facing wording.** Because the repository is public and the
   installed skills are the same files, the skills, `ProjectSkills.md` and
   `README.md` say "the user", never a person's name, and hold no home
@@ -91,3 +98,9 @@ and also keeps this record of the work on them.
   every Claude Code session on the machine at once.
 - A session started in this repository does not load another project's
   memory, so the rules that matter here are in `CLAUDE.md`.
+- The skills take the project root to be the directory the session was
+  started in. Work on these skills is often done from a session started in
+  another project; a save from there has to be pointed at this repository's
+  `PROJECTS.md` and `Projects/` deliberately.
+- Saving this record changes tracked files, so the repository shows
+  uncommitted changes after every save until the owner asks for a commit.
