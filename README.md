@@ -99,27 +99,42 @@ git clone https://github.com/blakemcbride/ClaudeCodeProjectSkill.git
 cd ClaudeCodeProjectSkill
 ```
 
-Then put the twelve skill directories where Claude Code looks for skills.
+Then run the install script from the cloned directory.
 
-For every project on your machine:
-
-```
-mkdir -p ~/.claude/skills
-cp -r skills/* ~/.claude/skills/
-```
-
-For one project only, run this from the cloned directory:
+On Linux or macOS:
 
 ```
-mkdir -p /path/to/your/project/.claude/skills
-cp -r skills/* /path/to/your/project/.claude/skills/
+./install.sh
 ```
+
+On Windows:
+
+```
+powershell -ExecutionPolicy Bypass -File install.ps1
+```
+
+This copies the twelve skill directories to `~/.claude/skills`
+(`%USERPROFILE%\.claude\skills` on Windows), where Claude Code looks for
+skills, so they work in every project on your machine. If
+`CLAUDE_CONFIG_DIR` is set, the script uses it in place of `~/.claude`.
+
+For one project only, name the project:
+
+```
+./install.sh --project /path/to/your/project
+```
+
+```
+powershell -ExecutionPolicy Bypass -File install.ps1 -Project C:\path\to\your\project
+```
+
+That installs into the project's own `.claude/skills`.
 
 Start a new Claude Code session. `/skills` lists the twelve, and `/list-projects`
 is a harmless first test: in a project with no `PROJECTS.md` it says so and
 stops.
 
-Install all twelve. They refer to each other by name.
+The script installs all twelve. They refer to each other by name.
 
 ### Installing with links instead of copies
 
@@ -127,11 +142,24 @@ If you would rather have the installed skills follow the cloned repository,
 link the directories instead of copying them:
 
 ```
-mkdir -p ~/.claude/skills
-for s in skills/*; do ln -s "$PWD/$s" ~/.claude/skills/; done
+./install.sh --link
 ```
 
-A `git pull` then updates the installed skills as well.
+```
+powershell -ExecutionPolicy Bypass -File install.ps1 -Link
+```
+
+A `git pull` then updates the installed skills as well. On Windows the links
+are directory junctions, which need no special rights.
+
+### Installing by hand
+
+The scripts only copy or link directories. Without them:
+
+```
+mkdir -p ~/.claude/skills
+cp -r skills/* ~/.claude/skills/
+```
 
 ## Use
 
@@ -155,23 +183,29 @@ session.
 
 ## Update
 
-With copies, pull and copy again:
+With copies, pull and run the install script again, with the same options as
+before. It replaces each of the twelve installed skill directories:
 
 ```
 git pull
-cp -r skills/* ~/.claude/skills/
+./install.sh
 ```
 
-With links, `git pull` is enough.
+With links, `git pull` is enough. Run the script again only when a pull
+brings a new skill, which needs its own link.
 
 ## Remove
 
 ```
-cd ~/.claude/skills
-rm -r new-project resume-project save-project list-projects describe-project \
-   status-projects rename-project archive-project unarchive-project \
-   merge-project split-project delete-project
+./install.sh --uninstall
 ```
+
+```
+powershell -ExecutionPolicy Bypass -File install.ps1 -Uninstall
+```
+
+Add `--project` (`-Project`) with the project's directory for a
+one-project install.
 
 This removes the skills only. `PROJECTS.md` and `Projects/` in your projects
 are yours and are left alone.

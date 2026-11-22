@@ -582,7 +582,11 @@ fresh session.
 ## Installing and sharing
 
 `README.md` in this repository explains how to install the skills, how to
-update them, and how to remove them. To give the skills to someone else,
+update them, and how to remove them. Two scripts in the repository root do
+all three: `install.sh` on Linux and macOS, `install.ps1` on Windows. Each
+copies the skill directories into `~/.claude/skills`, or links them with
+`--link` (`-Link`), installs into one project with `--project <dir>`
+(`-Project <dir>`), and removes them with `--uninstall` (`-Uninstall`). To give the skills to someone else,
 send them the address of the repository.
 
 In each project nothing is set up in advance. The first `/save-project`

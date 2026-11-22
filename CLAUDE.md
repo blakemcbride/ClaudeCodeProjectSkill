@@ -13,6 +13,10 @@ their documentation. It is public on GitHub.
   every Claude Code session at once. Do not leave a skill half edited.
 - `ProjectSkills.md` — full documentation of every skill and step.
 - `README.md` — public introduction, install, use, update and remove steps.
+- `install.sh` (Linux, macOS) and `install.ps1` (Windows) — install, update
+  or remove the skills by copying or linking `skills/*`. They take the skill
+  names from `skills/`, so a new skill needs no change to them. Keep the two
+  in step with each other and with `README.md`.
 - `PROJECTS.md` and `Projects/` — this repository's own saved state, written
   by the skills themselves. Use `/resume-project` and `/save-project` here as
   in any other project.
