@@ -1,20 +1,21 @@
 # Project management skills
 
-Six Claude Code skills that keep the state of each project in plain files:
-`new-project`, `resume-project`, `save-project`, `list-projects`,
-`describe-project`, `delete-project`. This repository is their one source
+Twelve Claude Code skills that keep the state of each project in plain
+files: `new-project`, `resume-project`, `save-project`, `list-projects`,
+`describe-project`, `status-projects`, `rename-project`, `archive-project`,
+`unarchive-project`, `merge-project`, `split-project`, `delete-project`. This repository is their one source
 and also keeps this record of the work on them.
 
 ## Where everything is
 
 - This repository (branch `master`, public on GitHub as
   `blakemcbride/ClaudeCodeProjectSkill`, MIT).
-  - `skills/<name>/SKILL.md` — the six skills.
+  - `skills/<name>/SKILL.md` — the twelve skills.
   - `ProjectSkills.md` — full documentation of every step.
   - `README.md` — public introduction, install, use, update, remove.
   - `CLAUDE.md` — the rules for working in this repository.
   - `PROJECTS.md` and `Projects/` — this project's own saved state.
-- On the owner's machine `~/.claude/skills/<name>` for each of the six is a
+- On the owner's machine `~/.claude/skills/<name>` for each of the twelve is a
   symbolic link into `skills/` here, so editing a skill through either path
   edits this repository.
 - Other projects on the owner's machine use the skills, each with its own
@@ -56,6 +57,40 @@ and also keeps this record of the work on them.
   section, plus the total. Detail comes from `describe-project`, which was
   added for that purpose and reads only the entry and the note.
 - **Section headings in `PROJECTS.md` are categories, not projects.**
+- **Six skills were added at the owner's choice** from a list of five
+  suggestions: rename, archive with unarchive, status, and merge with
+  split. The fifth, a read-only audit, was not chosen (see below).
+- **An archived project has no `PROJECTS.md` entry.** `archive-project`
+  moves the note to `Projects/archive/` and appends the entry, word for
+  word, to the note under `## Archived PROJECTS.md entry` with a
+  `Section:` line; `unarchive-project` puts both back. This kept the
+  meaning `Projects/archive/` already had (notes without an entry) and
+  loses no status. Archiving is not finishing.
+- **Archived projects are worked on only after unarchiving.**
+  `resume-project` stops at an archived note, `save-project` will not save
+  to one, and `merge-project` and `split-project` refuse one. Only
+  `rename-project` and `delete-project` act on an archived note directly.
+- **`merge-project` is a second skill that removes an entry and a note**,
+  but only after their whole content is in the target, and after a yes
+  given once the plan has been shown. The note is copied under
+  `## Merged from <title>`, never summarized. The "only `delete-project`
+  deletes" rule in `CLAUDE.md`, `README.md` and `ProjectSkills.md` was
+  widened to say this. The owner has seen this and not objected; it has
+  not been discussed further.
+- **Which new skills ask first.** `merge-project` and `split-project` show
+  a plan and need a yes. `rename-project`, `archive-project` and
+  `unarchive-project` act on an exact match without asking, because each
+  can be undone, and ask only on a loose match.
+- **`split-project` writes the new project before it takes anything out of
+  the original**, and `archive-project` and `merge-project` remove an entry
+  only after the content is safely elsewhere.
+- **Moving a note uses `git mv` or `svn mv`** when the note is under
+  version control. Neither commits, so the "skills never commit" rule
+  holds.
+- **`status-projects` reads `PROJECTS.md` only**, not the notes, and shows
+  `<name> (<count>): <Next: line>`. It sits between `list-projects` and
+  `describe-project`. `list-projects` gained a last `Archived:` line so
+  archived projects can be found.
 - **Purposes the owner named:** one session per piece of work instead of
   weeks-long sessions, and saving tokens, since a fresh session reads only a
   few kilobytes of state where a long or reopened session re-sends its whole
@@ -79,6 +114,20 @@ and also keeps this record of the work on them.
   repository: no person's name, no home directory path, no other project's
   name.
 
+## Suggested, not taken up
+
+Raised in a review of whether the skills cover every case. The owner has
+not decided on these.
+
+- **A read-only audit skill** (`check-projects`): notes with no entry,
+  entries whose note is missing, name collisions, stale `Where:` lines.
+  Offered with the others and not chosen.
+- **`new-project` creates nothing.** A new project gets its record only at
+  the first `save-project`, so a session that ends before then leaves no
+  record. A stub entry written by `new-project` was suggested.
+- **`save-project` with several projects.** It does not say which entry to
+  use when a session touched two projects or resumed none.
+
 ## Rejected
 
 - **Making the skills clear the session themselves.** Claude Code offers no
@@ -93,7 +142,9 @@ and also keeps this record of the work on them.
 - The skills are instructions, not code: a change is tested by running the
   skill, not by a build.
 - Symbolic links for skill directories work: a fresh Claude Code 2.1.330
-  session listed all six linked skills.
+  session listed all six linked skills. A new skill directory needs its own
+  link added; a skill linked in the middle of a session became available in
+  that session at once.
 - Because the installed skills are links, a half-made edit here is live in
   every Claude Code session on the machine at once.
 - A session started in this repository does not load another project's
