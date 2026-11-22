@@ -1,18 +1,36 @@
 # Claude Code Project Skills
 
-Six [Claude Code](https://claude.com/claude-code) skills that keep the state
-of each piece of work in plain files in your project, so a fresh session can
-pick the work up with nothing lost.
+[Claude Code](https://claude.com/claude-code) saves your sessions
+automatically and lets you resume them. That is useful, but it has three
+problems:
 
-A Claude Code session that stays open for weeks loses detail every time its
-context is compacted. These skills replace the long-lived session with a
-written record: you save where a project stands, close the session whenever
+1. **A saved session holds far too much detail.** It is the whole
+   conversation, and all of it is sent to the model again on every turn of a
+   resumed session, using tokens that are not needed.
+2. **Saved sessions are purged.** Claude Code deletes them automatically
+   after a set period (30 days unless you change it).
+3. **Saved sessions are stored outside your project.** They are kept in
+   Claude Code's own directories, which may not be backed up with your
+   project.
+
+These six skills manage what they call *projects*. A project does
+essentially what session save and resume does, without those three
+shortcomings:
+
+1. **Only what matters is kept.** A project's saved state is a short
+   summary: where the work stands, the next step, what is outstanding, and
+   the decisions and traps a new session could not work out from the code. A
+   fresh session that reads it starts with a few kilobytes, not a whole
+   conversation.
+2. **Nothing is purged.** A project's saved state stays until you delete it
+   yourself.
+3. **It is stored in your project.** The saved state is plain Markdown files
+   in your project's own directory, so it is backed up and copied along with
+   everything else there, and can be put under version control.
+
+A long session also loses detail every time its context is compacted. A
+saved project does not: you save where it stands, close the session whenever
 you like, and start the next one by reading the record back.
-
-It also saves tokens. A long or reopened session carries its whole history,
-and that history is sent to the model again on every turn. A fresh session
-that reads a project's saved state starts with only the few kilobytes that
-matter.
 
 > This is an independent project. It is not made or supported by Anthropic.
 
