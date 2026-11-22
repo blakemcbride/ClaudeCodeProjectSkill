@@ -1,8 +1,10 @@
 # Working in this repository
 
-This repository is the one source of six Claude Code skills (`new-project`,
-`resume-project`, `save-project`, `list-projects`, `describe-project`,
-`delete-project`) and their documentation. It is public on GitHub.
+This repository is the one source of twelve Claude Code skills
+(`new-project`, `resume-project`, `save-project`, `list-projects`,
+`describe-project`, `status-projects`, `rename-project`, `archive-project`,
+`unarchive-project`, `merge-project`, `split-project`, `delete-project`) and
+their documentation. It is public on GitHub.
 
 ## Layout
 
@@ -27,6 +29,8 @@ This repository is the one source of six Claude Code skills (`new-project`,
 - **A project is never finished.** No skill marks a project as done or
   closed, and none deletes a project's entry or note except
   `delete-project`, on an explicit request and after confirmation.
+  `archive-project` moves them and loses nothing; `merge-project` removes
+  them only after their content is in the other project, after confirmation.
 - **The skills only write records.** They change no application code and
   never commit, push, deploy or restart anything.
 - **Test by running.** The skills are instructions, not code. A change is

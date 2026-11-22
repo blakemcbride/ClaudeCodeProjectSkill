@@ -13,7 +13,7 @@ problems:
    Claude Code's own directories, which may not be backed up with your
    project.
 
-These six skills manage what they call *projects*. A project does
+These twelve skills manage what they call *projects*. A project does
 essentially what session save and resume does, without those three
 shortcomings:
 
@@ -43,6 +43,12 @@ you like, and start the next one by reading the record back.
 | `/new-project <name>` | Alias for `/resume-project`. |
 | `/list-projects [words]` | Lists the names of the recorded projects. Changes nothing. |
 | `/describe-project <name>` | Shows the detail of one project from its saved state. Changes nothing. |
+| `/status-projects [words]` | Shows one line per project: its name, its next step and how many items are outstanding. Changes nothing. |
+| `/rename-project <name> to <new name>` | Renames a project and fixes the references to it. |
+| `/archive-project <name>` | Sets a project aside without deleting it. Its saved state moves to `Projects/archive/`. |
+| `/unarchive-project [name]` | Brings an archived project back. With no name it lists the archived projects. |
+| `/merge-project <name> into <other>` | Folds one project into another, after showing the plan and asking for confirmation. |
+| `/split-project <name> [into <new name>]` | Makes two projects of one, after showing the plan and asking for confirmation. |
 | `/delete-project <name>` | Deletes a project's saved state, after showing what will go and asking for confirmation. |
 
 Claude also runs a skill when you ask in plain words, for example "save
@@ -65,12 +71,14 @@ Both are ordinary Markdown files that you can read and edit yourself. They
 are kept in your project, not in Claude Code's own directories, so nothing
 Claude Code cleans up can remove them.
 
-Three rules run through all six skills:
+Three rules run through all twelve skills:
 
 - **A project is never finished.** More corrections and enhancements are
   always possible, so no skill marks a project as done or closed.
 - **Nothing is deleted automatically.** Only `/delete-project` removes a
-  project, and only after you confirm.
+  project, and only after you confirm. `/archive-project` sets one aside
+  and loses nothing, and `/merge-project` moves a project's whole content
+  into another before removing it, after you confirm.
 - **The skills only write records.** They change no application code and
   never commit, push, deploy or restart anything.
 
@@ -91,7 +99,7 @@ git clone https://github.com/blakemcbride/ClaudeCodeProjectSkill.git
 cd ClaudeCodeProjectSkill
 ```
 
-Then put the six skill directories where Claude Code looks for skills.
+Then put the twelve skill directories where Claude Code looks for skills.
 
 For every project on your machine:
 
@@ -107,11 +115,11 @@ mkdir -p /path/to/your/project/.claude/skills
 cp -r skills/* /path/to/your/project/.claude/skills/
 ```
 
-Start a new Claude Code session. `/skills` lists the six, and `/list-projects`
+Start a new Claude Code session. `/skills` lists the twelve, and `/list-projects`
 is a harmless first test: in a project with no `PROJECTS.md` it says so and
 stops.
 
-Install all six. They refer to each other by name.
+Install all twelve. They refer to each other by name.
 
 ### Installing with links instead of copies
 
@@ -160,7 +168,9 @@ With links, `git pull` is enough.
 
 ```
 cd ~/.claude/skills
-rm -r new-project resume-project save-project list-projects describe-project delete-project
+rm -r new-project resume-project save-project list-projects describe-project \
+   status-projects rename-project archive-project unarchive-project \
+   merge-project split-project delete-project
 ```
 
 This removes the skills only. `PROJECTS.md` and `Projects/` in your projects
